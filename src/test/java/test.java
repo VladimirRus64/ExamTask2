@@ -86,13 +86,42 @@ public class test {
 
         String lastCharacterName = resp4json.get("name").toString();
         System.out.println("Имя последнего персонажа последнего эпизода: " + lastCharacterName);
+       }
 
+    @Tag("4api")
+    @Test
+    @DisplayName("Задание на углубление в ApI")
+    public void createPostRequest() {
+           String body = "{\"name\":\"potato\"}";
+        Response response5 = given()
+                .baseUri("https://reqres.in/")
+                .contentType("application/json;charset=UTF-8")
+                .log().all()
+                .when()
+                .body(body)
+                .post("api/users")
+                .then()
+                .statusCode(201)
+                .log().all()
+                .extract().response();
+
+        body = "{\"name\":\"potato\", \"job\":\"Eat maket\"}";
+        Response response6 = given()
+                .baseUri("https://reqres.in/")
+                .contentType("application/json;charset=UTF-8")
+                .log().all()
+                .when()
+                .body(body)
+                .post("api/users")
+                .then()
+                .statusCode(201)
+                .log().all()
+                .extract().response();
 
 
 
 
     }
-
 
 }
 
