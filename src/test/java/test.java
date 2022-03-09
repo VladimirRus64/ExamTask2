@@ -96,19 +96,19 @@ public class test {
     @DisplayName("Задание на углубление в ApI")
     public void createPostRequest() {
            String body = "{\"name\":\"potato\"}";
-        Response response5 = given()
-                .baseUri("https://reqres.in/")
-                .contentType("application/json;charset=UTF-8")
-                .log().all()
-                .when()
-                .body(body)
-                .post("api/users")
-                .then()
-                .statusCode(201)
-                .log().all()
-                .extract().response();
+           Response response5 = given()
+                   .baseUri("https://reqres.in/")
+                   .contentType("application/json;charset=UTF-8")
+                   .log().all()
+                   .when()
+                   .body(body)
+                   .post("api/users")
+                   .then()
+                   .statusCode(201)
+                   .log().all()
+                   .extract().response();
 
-        body = "{\"name\":\"potato\", \"job\":\"Eat maket\"}";
+         body = "{\"name\":\"Tomato\", \"job\":\"Eat maket\"}";
         Response response6 = given()
                 .baseUri("https://reqres.in/")
                 .contentType("application/json;charset=UTF-8")
@@ -121,7 +121,8 @@ public class test {
                 .log().all()
                 .extract().response();
 
-        JSONObject resp5json = new JSONObject(response6);
+        String resp5 = response6.getBody().asString();
+        JSONObject resp5json = new JSONObject(resp5);
         Assertions.assertEquals(resp5json.getString("name"),"Tomato");
         Assertions.assertEquals(resp5json.getString("job"),"Eat maket");
     }
