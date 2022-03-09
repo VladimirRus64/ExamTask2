@@ -121,7 +121,9 @@ public class test {
                 .log().all()
                 .extract().response();
 
-
+        JSONObject resp5json = new JSONObject(response6);
+        Assertions.assertEquals(resp5json.getString("name"),"Tomato");
+        Assertions.assertEquals(resp5json.getString("job"),"Eat maket");
     }
 
 }
