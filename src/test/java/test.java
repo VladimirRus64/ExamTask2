@@ -75,7 +75,7 @@ public class test {
         JSONObject resp3json = new JSONObject(resp3);
 
         int jsonSize = (resp3json.getJSONArray("characters")).length();
-        String lastCharacterNum = resp3json.getJSONArray("characters").getString(jsonSize -1);
+        String lastCharacterNum = resp3json.getJSONArray("characters").getString(jsonSize - 1);
 
         Response response4 = given()
                 .get(lastCharacterNum)
@@ -86,8 +86,11 @@ public class test {
 
         String lastCharacterName = resp4json.get("name").toString();
         System.out.println("Имя последнего персонажа последнего эпизода: " + lastCharacterName);
-       }
-
+        String lastCharacterrace = resp4json.getString("species").toString();
+        System.out.println("Его раса: " + lastCharacterrace);
+        String lastCharacterLocation = resp4json.getJSONObject("location").getString("name").toString();
+        System.out.println("Его местнахождение: " + lastCharacterLocation);
+    }
     @Tag("4api")
     @Test
     @DisplayName("Задание на углубление в ApI")
@@ -117,8 +120,6 @@ public class test {
                 .statusCode(201)
                 .log().all()
                 .extract().response();
-
-
 
 
     }
