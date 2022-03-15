@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
@@ -17,7 +18,7 @@ import java.nio.file.Paths;
 import static io.restassured.RestAssured.given;
 
 public class test {
-
+    @Step("Получение JSONа, поиск по нему информации о 2х персонажах их сравнение")
     @Tag("1api")
     @Test
     @DisplayName("Сравнение 2х героев")
@@ -77,13 +78,13 @@ public class test {
             System.out.println("Если вы читаете данное сообщение, значить " + mortiname + " и " + lastCharacterName + " одной расы, но c разных планет =(");
 
     }
-
-    @Tag("2api")
+    @Step("Отправка post-запроса, получение и проверка ответа")
+    //@Tag("2api")
     @Test
     @DisplayName("Задание на углубление в ApI")
     public void createPostRequest() throws IOException {
 
-        JSONObject jsonObject = new JSONObject(new String(Files.readAllBytes(Paths.get("/Users\\Администратор\\Desktop\\Lesson5\\src\\test\\resources\\.json"))));
+        JSONObject jsonObject = new JSONObject(new String(Files.readAllBytes(Paths.get("src/test/resources/.json"))));
 
         jsonObject.put("name", "Tomato");
         jsonObject.put("job", "Eat maket");

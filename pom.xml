@@ -44,7 +44,6 @@
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
             <version>${allureJunit5.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.sshd</groupId>
