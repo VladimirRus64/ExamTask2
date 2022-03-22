@@ -1,8 +1,8 @@
-import Steps.ApiMorty;
+import steps.ApiMorty;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import Hooks.WebHooks;
+import hooks.WebHooks;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith({WebHooks.class})
@@ -16,7 +16,8 @@ public class MortyTest extends ApiMorty {
         lastEpisode();
         getLastCharacterNum();
         getLastCharacterInfo();
-        assertions();
+        assertionsRace();
+        assertionsLoc();
     }
 
 }

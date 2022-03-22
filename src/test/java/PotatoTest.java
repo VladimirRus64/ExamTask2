@@ -3,6 +3,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import static settings.Configuration.getFromProperties;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,15 +22,13 @@ public class PotatoTest {
         jsonObject.put("job", "Eat maket");
 
         Response response5 = given()
-                .baseUri("https://reqres.in/")
+                .baseUri(getFromProperties("urlpotato"))
                 .contentType("application/json;charset=UTF-8")
-                // .log().all()
                 .when()
                 .body(jsonObject.toString())
                 .post("api/users")
                 .then()
                 .statusCode(201)
-                // .log().all()
                 .extract().response();
 
         String resp5 = response5.getBody().asString();

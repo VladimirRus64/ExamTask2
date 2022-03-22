@@ -1,4 +1,4 @@
-package Steps;
+package steps;
 
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
@@ -6,6 +6,7 @@ import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 
+import static settings.Configuration.getFromProperties;
 import static io.restassured.RestAssured.given;
 
 public class ApiMorty {
@@ -21,11 +22,10 @@ public class ApiMorty {
     @Step("Получаем информацию о Морти")
     public void mortyInformation() {
         Response response1 = given()
-                .baseUri("https://rickandmortyapi.com")
+                .baseUri(getFromProperties("url"))
                 .contentType(ContentType.JSON)
-                //.log().all()
                 .when()
-                .get("/api/character/2")
+                .get("/character/2")
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -33,18 +33,15 @@ public class ApiMorty {
         mortiname = new JSONObject(response1.getBody().asString()).get("name").toString();
         mortilocation = new JSONObject(response1.getBody().asString()).getJSONObject("location").get("name").toString();
         mortirace = new JSONObject(response1.getBody().asString()).get("species").toString();
-        System.out.println("");
-        System.out.println("1й обьект сравнения: " + mortiname + ", " + mortirace + " с планеты " + mortilocation);
     }
 
     @Step("Получаем информацию о последнем эпизоде с Морти")
     public void lastEpisode() {
         Response response2 = given()
-                .baseUri("https://rickandmortyapi.com")
+                .baseUri(getFromProperties("url"))
                 .contentType(ContentType.JSON)
-                //.log().all()
                 .when()
-                .get("/api/character/2")
+                .get("/character/2")
                 .then()
                 .extract().response();
 
@@ -55,11 +52,10 @@ public class ApiMorty {
     @Step("Получаем индекс последнего персонажа")
     public void getLastCharacterNum() {
         Response response3 = given()
-                .baseUri("https://rickandmortyapi.com")
+                .baseUri(getFromProperties("url"))
                 .contentType(ContentType.JSON)
-                //.log().all()
                 .when()
-                .get("api/episode/" + lastEpisode)
+                .get("/episode/" + lastEpisode)
                 .then()
                 .extract().response();
 
@@ -70,26 +66,25 @@ public class ApiMorty {
     @Step("Получаем информацию о последнем персонаже")
     public void getLastCharacterInfo() {
         Response response4 = given()
-                .baseUri("https://rickandmortyapi.com")
+                .baseUri(getFromProperties("url"))
                 .contentType(ContentType.JSON)
-                //.log().all()
                 .when()
-                .get("api/character/" + lastCharacterNum)
+                .get("/character/" + lastCharacterNum)
                 .then()
                 .extract().response();
         lastCharacterName = new JSONObject(response4.getBody().asString()).get("name").toString();
         lastCharacterLocation = new JSONObject(response4.getBody().asString()).getJSONObject("location").get("name").toString();
         lastCharacterrace = new JSONObject(response4.getBody().asString()).get("species").toString();
-        System.out.println("2й обьект сравнения: " + lastCharacterName + ", " + lastCharacterrace + " с планеты " + lastCharacterLocation);
-       }
+    }
 
-    @Step("Сравниваем расу и местоположение персонажей")
-    public void assertions() {
+    @Step("Сравниваем расу персонажей")
+    public void assertionsRace() {
         Assertions.assertEquals(mortirace, lastCharacterrace);
-        if (mortilocation.equals(lastCharacterLocation)) {
-            System.out.println(mortiname + lastCharacterName + "с одной планеты");
-        } else
-            System.out.println("Если вы читаете данное сообщение, значить " + mortiname + " и " + lastCharacterName + " одной расы, но c разных планет =(");
+    }
+
+    @Step("Сравниваем местоположение персонажей")
+    public void assertionsLoc() {
+        Assertions.assertNotEquals(mortilocation, lastCharacterLocation);
     }
 
 }
