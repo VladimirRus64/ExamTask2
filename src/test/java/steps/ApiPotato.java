@@ -1,19 +1,21 @@
+package steps;
+
+import io.cucumber.java.ru.Затем;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import static settings.Configuration.getFromProperties;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static io.restassured.RestAssured.given;
+import static settings.Configuration.getFromProperties;
 
-public class PotatoTest {
-    @Test
+public class ApiPotato {
     @DisplayName("Задание на углубление в ApI")
+    @Затем("^Отправка запроса на регресc и проверка ответа на валидность данных$")
     public void createPostRequest() throws IOException {
 
         JSONObject jsonObject = new JSONObject(new String(Files.readAllBytes(Paths.get("src/test/resources/.json"))));

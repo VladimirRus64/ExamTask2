@@ -1,13 +1,16 @@
 package steps;
 
-import io.qameta.allure.Step;
+import io.cucumber.java.ru.Дано;
+import io.cucumber.java.ru.Затем;
+import io.cucumber.java.ru.И;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 
-import static settings.Configuration.getFromProperties;
 import static io.restassured.RestAssured.given;
+import static settings.Configuration.getFromProperties;
 
 public class ApiMorty {
     public int lastEpisode;
@@ -19,7 +22,8 @@ public class ApiMorty {
     public int lastCharacterNum;
     public String lastCharacterLocation;
 
-    @Step("Получаем информацию о Морти")
+    @DisplayName("Задание на создание API и сравнение информации о персонажах")
+    @Дано("^Получаем информацию о Морти$")
     public void mortyInformation() {
         Response response1 = given()
                 .baseUri(getFromProperties("url"))
@@ -35,7 +39,7 @@ public class ApiMorty {
         mortirace = new JSONObject(response1.getBody().asString()).get("species").toString();
     }
 
-    @Step("Получаем информацию о последнем эпизоде с Морти")
+    @Затем("Получаем информацию о последнем эпизоде с Морти")
     public void lastEpisode() {
         Response response2 = given()
                 .baseUri(getFromProperties("url"))
@@ -49,7 +53,7 @@ public class ApiMorty {
         lastEpisode = Integer.parseInt(new JSONObject(response2.getBody().asString()).getJSONArray("episode").get(jsonSize1 - 1).toString().replaceAll("[^0-9]", ""));
     }
 
-    @Step("Получаем индекс последнего персонажа")
+    @Затем("Получаем индекс последнего персонажа")
     public void getLastCharacterNum() {
         Response response3 = given()
                 .baseUri(getFromProperties("url"))
@@ -63,7 +67,7 @@ public class ApiMorty {
         lastCharacterNum = Integer.parseInt(new JSONObject(response3.getBody().asString()).getJSONArray("characters").get(lastCharacterIndex).toString().replaceAll("[^0-9]", ""));
     }
 
-    @Step("Получаем информацию о последнем персонаже")
+    @Затем("Получаем информацию о последнем персонаже")
     public void getLastCharacterInfo() {
         Response response4 = given()
                 .baseUri(getFromProperties("url"))
@@ -77,12 +81,12 @@ public class ApiMorty {
         lastCharacterrace = new JSONObject(response4.getBody().asString()).get("species").toString();
     }
 
-    @Step("Сравниваем расу персонажей")
+    @И("Сравниваем расу персонажей")
     public void assertionsRace() {
         Assertions.assertEquals(mortirace, lastCharacterrace);
     }
 
-    @Step("Сравниваем местоположение персонажей")
+    @И("Сравниваем местоположение персонажей")
     public void assertionsLoc() {
         Assertions.assertNotEquals(mortilocation, lastCharacterLocation);
     }
